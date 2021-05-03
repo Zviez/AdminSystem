@@ -1,20 +1,23 @@
 # -*- coding: utf-8 -*-
-
+###############################################################
+##                                                           ##
+##   Author : Zviez                                          ##
+##   Description : Project for OC TP6                        ##
+##   Year : 2021                                             ##
+##                                                           ##
+##                                                           ##
+###############################################################
 
 from gui import Ui_MainWindow
 from PyQt5 import QtCore, QtGui, QtWidgets
 from Plotter import CustomWidget, sniffer
 from functools import partial
-from time import sleep
 from pexpect import pxssh
 from threading import *
 from scapy.all import *
 from pypxe import http, dhcp
 
-import getpass
 import numpy as np
-import subprocess
-import os
 
 
 class Application:
