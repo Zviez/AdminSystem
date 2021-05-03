@@ -40,6 +40,52 @@ class Application:
         self.ui = Ui_MainWindow()
         self.ui.setupUi(MainWindow)
         
+        ##############################################################
+        ### Command for Kernel Hardening
+
+        self.cmd = '''echo `cat << EOF
+			kernel.kptr_restrict=2\\n
+			kernel.dmesg_restrict=1\\n
+			kernel.printk=3 3 3 3\\n
+			kernel.unprivileged_bpf_disabled=1\\n
+			dev.tty.ldisc_autoload=0\\n
+			net.core.bpf_jit_harden=2\\n
+			vm.unprivileged_userfaultfd=0\\n
+			kernel.kexec_load_disabled=1\\n
+			kernel.sysrq=4\\n
+			kernel.unprivileged_userns_clone=0\\n
+			kernel.perf_event_paranoid=3\\n
+			net.ipv4.tcp_syncookies=1\\n
+			net.ipv4.tcp_rfc1337=1\\n
+			net.ipv4.conf.all.rp_filter=1\\n
+			net.ipv4.conf.default.rp_filter=1\\n
+			net.ipv4.conf.all.accept_redirects=0\\n
+			net.ipv4.conf.default.accept_redirects=0\\n
+			net.ipv4.conf.all.secure_redirects=0\\n
+			net.ipv4.conf.default.secure_redirects=0\\n
+			net.ipv6.conf.all.accept_redirects=0\\n
+			net.ipv6.conf.default.accept_redirects=0\\n
+			net.ipv4.conf.all.send_redirects=0\\n
+			net.ipv4.conf.default.send_redirects=0\\n
+			net.ipv4.icmp_echo_ignore_all=1\\n
+			net.ipv4.conf.all.accept_source_route=0\\n
+			net.ipv4.conf.default.accept_source_route=0\\n
+			net.ipv6.conf.all.accept_source_route=0\\n
+			net.ipv6.conf.default.accept_source_route=0\\n
+			net.ipv6.conf.all.accept_ra=0\\n
+			net.ipv6.conf.default.accept_ra=0\\n
+			net.ipv4.tcp_sack=0\\n
+			net.ipv4.tcp_dsack=0\\n
+			net.ipv4.tcp_fack=0\\n
+			kernel.yama.ptrace_scope=2\\n
+			vm.mmap_rnd_bits=32\\n
+			vm.mmap_rnd_compat_bits=16\\n
+			fs.protected_symlinks=1\\n
+			fs.protected_hardlinks=1\\n
+			fs.protected_fifos=2\\n
+			fs.protected_regular=2\\n
+			` >> /tmp/test'''
+
         ###########################################################################################"
         # listing interfaces depending on os and populating interface combo box
 
@@ -80,7 +126,7 @@ class Application:
         self.ui.buttonRemove.clicked.connect(partial(self.packageInstall, "apt remove"))
         self.ui.buttonUpdate.clicked.connect(partial(self.packageInstall, "apt update"))
         self.ui.buttonUpgrade.clicked.connect(partial(self.packageInstall, "apt upgrade -y"))
-        self.ui.buttonHarden.clicked.connect(partial(self.packageInstall, ""))
+        self.ui.buttonHarden.clicked.connect(partial(self.packageInstall, self.cmd))
 
         ###############################################################################
         # Linking tool buttons
@@ -92,6 +138,7 @@ class Application:
 
         self.ui.comboHostsDiag.currentIndexChanged.connect(self.selectDiagIp)
         self.ui.comboHostsAdminOp.currentIndexChanged.connect(self.selectAdminOpIP)
+        self.ui.comboHostsHard.currentIndexChanged.connect(self.selectHardIP)
 
         ###############################################################################
         # Linking ComboBoxes behaviour to functions
@@ -101,6 +148,8 @@ class Application:
 
         self.ui.comboHostsAdminOp.addItem("Ip")
         self.ui.comboHostsAdminOp.addItem("127.0.0.1")
+        self.ui.comboHostsHard.addItem("Ip")
+        self.ui.comboHostsHard.addItem("127.0.0.1")
 
         MainWindow.show()
 
@@ -138,22 +187,9 @@ class Application:
 
     def packageInstall(self, command):
 
-        user, password = self.sshcreds()
+        user, password = self.sshCreds()
 
-        if "apt install" in command:
-
-         if self.ui.linePackages.text() == '':
-
-             self.ui.consoleOutput.addItem("[+] Please enter packages")
-
-         else:
-
-             packages = self.ui.linePackages.text()
-
-             command = "echo -n %password |sudo -S %s %s" % (password, command, packages)
-
-
-        elif "apt remove" in command:
+        if "apt" in command:
 
          if self.ui.linePackages.text() == '':
 
@@ -166,18 +202,20 @@ class Application:
              command = "echo -n %password |sudo -S %s %s" % (password, command, packages)
 
 
-        if self.selectIP == "ip" or self.selectIP == None:
+        if self.selectIP == "Ip" or self.selectIP == None:
             return
+
+        print(self.selectIP)
 
         if self.procSSH is None:
 
-            self.procSSH = ssh(self.ipAdminOp, command, user, password)
+            self.procSSH = ssh(self.selectIP, command, user, password)
             self.procSSH.start()
 
         elif self.procSSH is not None and self.procSSH.running == False:
 
             self.procSSH.join()
-            self.procSSH = ssh(self.ipAdminOp, command, user, password)
+            self.procSSH = ssh(self.selectIP, command, user, password)
             self.procSSH.start()
 
         else:
@@ -204,7 +242,11 @@ class Application:
 
         self.interface = (self.ui.comboIfaceAdminOp.currentText())
 
+
     ####################################################################
+    def selectHardIP(self):
+
+        self.selectIP = (self.ui.comboHostsHard.currentText())
 
     def selectDiagIp(self):
         '''
@@ -464,6 +506,7 @@ class ssh(Thread):
             print(e)
 
         self.running = False
+
 
 class pxeServer(Thread):
 
