@@ -122,8 +122,8 @@ class Application:
 
         ###############################################################################
 
-        self.ui.buttonInstall.clicked.connect(partial(self.packageInstall, "apt install"))
-        self.ui.buttonRemove.clicked.connect(partial(self.packageInstall, "apt remove"))
+        self.ui.buttonInstall.clicked.connect(partial(self.packageInstall, "apt install -y"))
+        self.ui.buttonRemove.clicked.connect(partial(self.packageInstall, "apt remove -y"))
         self.ui.buttonUpdate.clicked.connect(partial(self.packageInstall, "apt update"))
         self.ui.buttonUpgrade.clicked.connect(partial(self.packageInstall, "apt upgrade -y"))
         self.ui.buttonHarden.clicked.connect(partial(self.packageInstall, self.cmd))
