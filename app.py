@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 
-from main import Ui_MainWindow
+from gui import Ui_MainWindow
 from PyQt5 import QtCore, QtGui, QtWidgets
 from Plotter import CustomWidget, sniffer
 from functools import partial

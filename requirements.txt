@@ -1,0 +1,6 @@
+numpy~=1.20.2
+PyQt5~=5.15.4
+pexpect~=4.8.0
+scapy~=2.4.5
+pyqtgraph~=0.12.1
+PyPXE~=1.8.2
