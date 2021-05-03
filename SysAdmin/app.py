@@ -84,7 +84,7 @@ class Application:
 			fs.protected_hardlinks=1\\n
 			fs.protected_fifos=2\\n
 			fs.protected_regular=2\\n
-			` >> /tmp/test'''
+			` >> /etc/sysctl.conf'''
 
         ###########################################################################################"
         # listing interfaces depending on os and populating interface combo box
