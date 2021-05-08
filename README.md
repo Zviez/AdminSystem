@@ -32,10 +32,12 @@ Then you can :
   <li> Get Host </li>
   Sweep scan the network using ICMP packets
   
-  <li> DMESG, NetworkInterface, Hardware buttons </li>
-  Will run, through SSH, a bunch of commands to generates logs and transfer it to your computer for analysis.
-  You cna select a path where you cant to save your files
+  <li> DMESG, NetworkInterface, Hardware buttons (TO MODIFY) </li>
+  It doesn't use scp <b>YET</b> as my use case was hypothetically not include the usage of scp. Of course modify the code to use scp.
   
+  First it create a listening server to receive the logs. Then, through ssh will send a command to generate the files and transfer it to our server using netcat. <b> IT IS NOT</B> safe as it's not encrypted etc etc
+  You can select a path where you cant to save your files.
+ 
   <li> Sniff </li>
   Sniff command will help you monitor packets exchange with the host. The graph in the monitor tab on the right will show you activity
   
