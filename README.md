@@ -83,7 +83,7 @@ you can simply use the requirements file :
 <H3> Launching </H3>
 
 Use sudo privileges commands as i didnt implement elevation script yet. Using interfaces with scapy requires elevation
-Launch using the command with <b>sudo python3 main.py</b> in SysAdmin directory
+Launch using the command with <b>sudo python3 main.py</b> in <b>SysAdmin</b> directory
 
 Todo :
 
