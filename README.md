@@ -15,7 +15,7 @@ The gui is divided between 3 tabs:
 <h4> Harden </h4>
 
 This tab is used for kernel hardening. 
-You need first to select a network interface in the combobox, then sweepscan the network for Host Discovery. Once it's done, select an host or "All Hosts" to harden the box.
+You need first to select a network interface in the combobox, then sweepscan the network for Host Discovery using <b> Get Hosts</b>. Once it's done, select an host or "All Hosts" to harden the box.
 It uses SSH protocol to send commands, so be sure the hosts is running an ssh server.
 
 <h4> Diag </h4>
