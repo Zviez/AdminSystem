@@ -10,7 +10,7 @@ The gui is divided between 3 tabs:
 
 <h4> os Install </h4>
 
-  Using <b>PyPXE</b> library this part will help you create a PXE server for remote OS installation. It can also act as a DHCP server in the case you don't have a DHCP server yet. You have the possibility to use HTPP, TFTP protocol for remote install. Chose an iso file and once you have selected a protocol or wether or not you need DHCP, click launch
+  Using <b>PyPXE</b> library this part will help you create a PXE server for remote OS installation. It can also act as a DHCP server in the case you don't have a DHCP server yet. You have the possibility to use HTPP, TFTP protocol for remote install. Chose an iso file and once you have selected a protocol or wether or not you need DHCP, click <b>launch pxe server</b>
   
 <h4> Harden </h4>
 
