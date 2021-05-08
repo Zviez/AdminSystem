@@ -90,4 +90,8 @@ Todo :
 Implement Try and catch to deal with errors
 Implement console output within GUI
 Finish PXE server
+Offer a console usage instead of GUI
 
+<H2> A word of Advise </H2>
+
+<b> DO NOT</b> use as is, it's not secure. It's a prototype, it has flaws and need a lots of improvements.
